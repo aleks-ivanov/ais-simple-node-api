@@ -24,18 +24,18 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm ci
+          npm ci --loglevel verbose 2>&1 | tee logs/install.log
 
       - name: Build the app
         run: |
-          npm run build --if-present
+          npm run build --if-present --loglevel verbose 2>&1 | tee logs/build.log
 
       - name: Run tests
         run: |
-          npm test > test.log 2>&1
+          npm test --loglevel verbose 2>&1 | tee logs/test.log
 
-      - name: Upload test.log as artifact
+      - name: Upload logs as artifact
         uses: actions/upload-artifact@v2
         with:
-          name: Test log
-          path: test.log
+          name: Logs
+          path: logs/
