@@ -37,5 +37,5 @@ jobs:
       - name: Upload logs as artifact
         uses: actions/upload-artifact@v2
         with:
-          name: Logs
+          name: Logs ${{ matrix.node-version }}
           path: logs/
