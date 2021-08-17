@@ -51,8 +51,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Run tmate action
-        uses: actions/tmate@v2
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
 
       # - name: Login to Heroku
       #   run: |
