@@ -32,4 +32,10 @@ jobs:
 
       - name: Run tests
         run: |
-          npm test
+          npm test > test.log 2>&1
+
+      - name: Upload test.log as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Test log
+          path: test.log
