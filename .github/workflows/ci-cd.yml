@@ -43,3 +43,25 @@ jobs:
         with:
           name: Logs ${{ matrix.node-version }}
           path: logs/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run tmate action
+        uses: actions/tmate@v2
+
+      # - name: Login to Heroku
+      #   run: |
+      #     heroku login
+      #     heroku auth:token
+      #     heroku auth:token --app ${{ secrets.HEROKU_APP }}
+      #     heroku auth:token --app ${{ secrets.HEROKU_APP }} --user ${{ secrets.HEROKU_USER }}
+      #     heroku auth:token --app ${{ secrets.HEROKU_APP }} --user ${{ secrets.HEROKU_USER }} --password ${{ secrets.HEROKU_PASSWORD }}
+
+
+      # - name: Deploy app to Heroku
+      #   run: |
