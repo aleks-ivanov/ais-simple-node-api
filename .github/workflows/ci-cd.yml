@@ -43,6 +43,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -53,13 +55,21 @@ jobs:
           node-version: 16.x
           cache: 'npm'
 
+      - name: Create config
+        run: |
+          npm install -g npmrc
+
+          echo "registry=https://registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+
+      - name: Upload logs as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: config
+          path: '.npmrc'
+
       - name: Deploy to npm
         run: |
           npm install
-
-          npm install -g npmrc
-
-          echo "registry=https://registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
 
           npm publish --access public
 
