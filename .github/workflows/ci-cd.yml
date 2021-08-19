@@ -55,7 +55,6 @@ jobs:
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
-          tag: 1.0.3
 
       # - name: Deploy app to Heroku
       #   uses: akhileshns/heroku-deploy@v3.12.12
