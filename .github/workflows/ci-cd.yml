@@ -51,9 +51,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Deploy app to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: "aais-simple-node-api"
-          heroku_email: "aleksandar.ivanov@singlet.dev"
+      - name: Deploy to npm
+        run: |
+          npm install -g npm-cli-login
+          
+          NPM_USER = "aleks-ivanov"
+          NPM_PASS = ${{ secrets.NPM_PASSWORD }}
+          NPM_EMAIL = "aleksandar.ivanov@singlet.dev"
+
+          npm-cli-login -u NPM_USER -p NPM_PASS -e NPM_EMAIL
+
+          npm publish --access public
+
+      # - name: Deploy app to Heroku
+      #   uses: akhileshns/heroku-deploy@v3.12.12
+      #   with:
+      #     heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+      #     heroku_app_name: "aais-simple-node-api"
+      #     heroku_email: "aleksandar.ivanov@singlet.dev"

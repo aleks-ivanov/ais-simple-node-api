@@ -1,5 +1,5 @@
 {
-  "name": "repo-ais-simple-node-api",
+  "name": "ais-simple-node-api",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
     "mocha": "^9.0.3",
     "nodemon": "^2.0.12",
@@ -19,5 +18,17 @@
   "dependencies": {
     "@splitsoftware/splitio": "^10.15.9",
     "express": "^4.17.1"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aleks-ivanov/ais-simple-node-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aleks-ivanov/ais-simple-node-api/issues"
+  },
+  "homepage": "https://github.com/aleks-ivanov/ais-simple-node-api#readme",
+  "description": ""
 }
