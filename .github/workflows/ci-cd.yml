@@ -60,7 +60,9 @@ jobs:
       - name: Deploy to npm
         run: |
           npm install -g npm-cli-login
-          
+
+          npm audit fix
+
           NPM_USER = "aleks-ivanov"
           NPM_PASS = ${{ secrets.NPM_PASSWORD }}
           NPM_EMAIL = "aleksandar.ivanov@singlet.dev"
