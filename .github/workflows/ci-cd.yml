@@ -70,7 +70,9 @@ jobs:
             | awk -F: '{ print $2 }' \
             | sed 's/[",]//g')
 
-          git tag -m "$PACKAGE_VERSION" $PACKAGE_VERSION
+          git config --global user.email "aleksandar.ivanov@singlet.dev"
+          git config --global user.name "aleks-ivanov"
+          git tag -a "v$PACKAGE_VERSION" -m "$PACKAGE_VERSION"
           git push origin --tags
 
       # - name: Deploy app to Heroku
