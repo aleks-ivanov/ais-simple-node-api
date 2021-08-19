@@ -1,10 +1,6 @@
 name: CI/CD pipeline
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [ push ]
 
 jobs:
   build:
@@ -47,6 +43,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -59,15 +57,9 @@ jobs:
 
       - name: Deploy to npm
         run: |
-          npm install -g npm-cli-login
+          npm install
 
-          npm audit fix
-
-          NPM_USER="aleks-ivanov"
-          NPM_PASS="${{ secrets.NPM_PASSWORD }}"
-          NPM_EMAIL="aleksandar.ivanov@singlet.dev"
-
-          npm-cli-login -u $NPM_USER -p $NPM_PASS -e $NPM_EMAIL
+          echo 'registry=https://registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
 
           npm publish --access public
 
