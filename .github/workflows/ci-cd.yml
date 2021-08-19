@@ -63,9 +63,9 @@ jobs:
 
           npm audit fix
 
-          NPM_USER = "aleks-ivanov"
-          NPM_PASS = ${{ secrets.NPM_PASSWORD }}
-          NPM_EMAIL = "aleksandar.ivanov@singlet.dev"
+          NPM_USER="aleks-ivanov"
+          NPM_PASS="${{ secrets.NPM_PASSWORD }}"
+          NPM_EMAIL="aleksandar.ivanov@singlet.dev"
 
           npm-cli-login -u $NPM_USER -p $NPM_PASS -e $NPM_EMAIL
 
