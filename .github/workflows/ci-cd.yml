@@ -43,6 +43,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -52,9 +54,13 @@ jobs:
         with:
           node-version: 16.x
 
-      - uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
+      - name: Deploy to npm
+        run: |
+          npm install
+
+          echo $'registry=https://registry.npmjs.org/\n' //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+
+          npm publish --access public
 
       # - name: Deploy app to Heroku
       #   uses: akhileshns/heroku-deploy@v3.12.12
