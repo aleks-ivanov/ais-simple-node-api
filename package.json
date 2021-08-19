@@ -1,6 +1,6 @@
 {
-  "name": "aaaaaaaaaaaais-simple-node-api",
-  "version": "1.0.6",
+  "name": "aaaaaaaaaaaaais-simple-node-api",
+  "version": "1.0.7",
   "main": "index.js",
   "scripts": {
     "test": "mocha ./test/* --exit",

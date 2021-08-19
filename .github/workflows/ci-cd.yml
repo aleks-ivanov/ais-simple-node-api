@@ -73,7 +73,7 @@ jobs:
 
           git config --global user.email "aleksandar.ivanov@singlet.dev"
           git config --global user.name "aleks-ivanov"
-          git tag -a $GITHUB_TAG -m $PACKAGE_VERSION
+          git tag $GITHUB_TAG
           git push origin --tags
 
       # - name: Deploy app to Heroku
