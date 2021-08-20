@@ -32,7 +32,7 @@ jobs:
         run: |
           # Get default branch
           REPO = "${{ github.repository }}"
-          DEFAULT_BRANCH = (curl -X GET https://api.github.com/repos/$REPO) | jq '.default_branch'
+          DEFAULT_BRANCH = (curl -X GET https://api.github.com/repos/"$REPO") | jq '.default_branch'
 
           Write-Output "::set-output name=default_branch::$(echo $DEFAULT_BRANCH)"
 
