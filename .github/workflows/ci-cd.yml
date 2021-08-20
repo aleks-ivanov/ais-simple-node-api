@@ -61,16 +61,6 @@ jobs:
           echo "::set-output name=is_push::$(echo $IS_PUSH)"
           echo "::set-output name=is_push_to_default_branch::$(echo $IS_PUSH_TO_DEFAULT_BRANCH)"
 
-      - name: Test all outputs
-        run: |
-          echo Default branch: ${{ steps.data_gatherer.outputs.default_branch }}
-
-          echo Is default branch: ${{ steps.conditionals_handler.outputs.is_default_branch }}
-
-          echo Is push: ${{ steps.conditionals_handler.outputs.is_push }}
-
-          echo Is push to default branch: ${{ steps.conditionals_handler.outputs.is_push_to_default_branch }}
-
       - if: steps.conditionals_handler.outputs.is_push_to_default_branch == 'true'
         name: Project version determiner
         id: proj_ver_determiner
@@ -87,7 +77,7 @@ jobs:
           LATEST_GITHUB_TAG=`echo $(git describe --abbrev=0 --tags)`
           SHOULD_DEPLOY="false"
 
-          if [[ "$LATEST_GITHUB_TAG" == "$PACKAGE_VERSION_TAG" ]]; then
+          if [ "$LATEST_GITHUB_TAG" != "$PACKAGE_VERSION_TAG" ] && [ "$(printf '%s\n' "$PACKAGE_VERSION_TAG" "$LATEST_GITHUB_TAG" | sort -V | head -n1)" = "$PACKAGE_VERSION_TAG" ]; then
             SHOULD_DEPLOY="true"
           fi
 
