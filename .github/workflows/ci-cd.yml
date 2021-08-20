@@ -65,24 +65,15 @@ jobs:
         name: Project version/deploy determiner
         id: proj_ver_determiner
         run: |
+          git fetch --all --tags
+
           PACKAGE_VERSION=$(cat package.json \
             | grep version \
             | head -1 \
             | awk -F: '{ print $2 }' \
             | sed 's/[",]//g')
-
-          echo Package version: $PACKAGE_VERSION
-
           PACKAGE_VERSION_TAG=`echo v$PACKAGE_VERSION | sed -e 's/[[:space:]]//'`
-
-          echo Package version tag: $PACKAGE_VERSION_TAG
-
-          git fetch --all --tags
-
           LATEST_GITHUB_TAG=`echo $(git tag | sort --version-sort | tail -n1)`
-
-          echo Latest github tag: $LATEST_GITHUB_TAG
-
           SHOULD_DEPLOY="false"
 
           # download semver compare tool
