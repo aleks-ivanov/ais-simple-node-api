@@ -62,7 +62,7 @@ jobs:
           echo "::set-output name=is_push_to_default_branch::$(echo $IS_PUSH_TO_DEFAULT_BRANCH)"
 
       - if: steps.conditionals_handler.outputs.is_push_to_default_branch == 'true'
-        name: Project version determiner
+        name: Project version/deploy determiner
         id: proj_ver_determiner
         run: |
           PACKAGE_VERSION=$(cat package.json \
@@ -77,7 +77,11 @@ jobs:
           LATEST_GITHUB_TAG=`echo $(git describe --abbrev=0 --tags)`
           SHOULD_DEPLOY="false"
 
-          if [ "$LATEST_GITHUB_TAG" != "$PACKAGE_VERSION_TAG" ] && [ "$(printf '%s\n' "$PACKAGE_VERSION_TAG" "$LATEST_GITHUB_TAG" | sort -V | head -n1)" = "$PACKAGE_VERSION_TAG" ]; then
+          # download semver compare tool
+          curl https://raw.githubusercontent.com/Ariel-Rodriguez/sh-semversion-2/main/semver2.sh -o semver2.sh
+          chmod +x semver2.sh
+
+          if [ `echo $(./semver2.sh $PACKAGE_VERSION_TAG $LATEST_GITHUB_TAG)` = 1 ]; then
             SHOULD_DEPLOY="true"
           fi
 
