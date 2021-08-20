@@ -79,7 +79,7 @@ jobs:
 
           git fetch --all --tags
 
-          LATEST_GITHUB_TAG=`echo $(git describe --abbrev=0 --tags)`
+          LATEST_GITHUB_TAG=`echo $(git tag | sort --version-sort | tail -n1)`
 
           echo Latest github tag: $LATEST_GITHUB_TAG
 
