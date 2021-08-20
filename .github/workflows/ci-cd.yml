@@ -69,7 +69,7 @@ jobs:
             | head -1 \
             | awk -F: '{ print $2 }' \
             | sed 's/[",]//g')
-          GITHUB_TAG=v$PACKAGE_VERSION | sed -e 's/[[:blank:]]//'
+          GITHUB_TAG=`echo v$PACKAGE_VERSION | sed -e 's/[[:space:]]//'`
 
           git config --global user.email "aleksandar.ivanov@singlet.dev"
           git config --global user.name "aleks-ivanov"
