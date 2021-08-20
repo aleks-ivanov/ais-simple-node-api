@@ -34,7 +34,7 @@ jobs:
           REPO="${{ github.repository }}"
           DEFAULT_BRANCH=(curl -X GET https://api.github.com/repos/$REPO) | jq '.default_branch'
 
-          Write-Output "::set-output name=default_branch::$(echo $DEFAULT_BRANCH)"
+          echo "::set-output name=default_branch::$(echo $DEFAULT_BRANCH)"
 
       - name: Pipeline conditionals handler
         id: conditionals_handler
@@ -57,9 +57,9 @@ jobs:
             IS_PUSH_TO_DEFAULT_BRANCH='true'
           fi
 
-          Write-Output "::set-output name=is_default_branch::$(echo $IS_DEFAULT_BRANCH)"
-          Write-Output "::set-output name=is_push::$(echo $IS_PUSH)"
-          Write-Output "::set-output name=is_push_to_default_branch::$(echo $IS_PUSH_TO_DEFAULT_BRANCH)"
+          echo "::set-output name=is_default_branch::$(echo $IS_DEFAULT_BRANCH)"
+          echo "::set-output name=is_push::$(echo $IS_PUSH)"
+          echo "::set-output name=is_push_to_default_branch::$(echo $IS_PUSH_TO_DEFAULT_BRANCH)"
 
       - if: steps.conditionals_handler.outputs.is_push_to_default_branch == 'true'
         name: Project version determiner
@@ -81,10 +81,10 @@ jobs:
             SHOULD_DEPLOY="true"
           fi
 
-          Write-Output "::set-output name=package_version::$(echo $PACKAGE_VERSION)"
-          Write-Output "::set-output name=package_version_tag::$(echo $PACKAGE_VERSION_TAG)"
-          Write-Output "::set-output name=latest_github_tag::$(echo $LATEST_GITHUB_TAG)"
-          Write-Output "::set-output name=should_deploy::$(echo $SHOULD_DEPLOY)"
+          echo "::set-output name=package_version::$(echo $PACKAGE_VERSION)"
+          echo "::set-output name=package_version_tag::$(echo $PACKAGE_VERSION_TAG)"
+          echo "::set-output name=latest_github_tag::$(echo $LATEST_GITHUB_TAG)"
+          echo "::set-output name=should_deploy::$(echo $SHOULD_DEPLOY)"
 
       - name: Create logs directory
         run: |
