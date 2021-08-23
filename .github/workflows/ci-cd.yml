@@ -163,7 +163,7 @@ jobs:
           RELEASE_TITLE="$RELEASE_TAG"
           RELEASE_NOTES=$(echo $(cat CHANGELOG.md) | grep -oP '(?<=## v5.7.1).*?(?=## v)')
 
-          gh release create $RELEASE_TAG --title $RELEASE_TITLE --notes "$'## CHANGELOG:\n\n' $RELEASE_NOTES"
+          gh release create $RELEASE_TAG --title $RELEASE_TITLE --notes $'## CHANGELOG:\n\n'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
