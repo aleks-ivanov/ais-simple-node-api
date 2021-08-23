@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.1.9
+## v1.1.10
 
  - Avoided collapsing assignments together if it would place a chain assignment on the left hand side, which is invalid syntax (`a?.b = c`)
  - Removed undefined from object expansions (`{ ...void 0 }` -> `{}`)
