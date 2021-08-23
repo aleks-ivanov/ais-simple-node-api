@@ -161,9 +161,11 @@ jobs:
         run: |
           RELEASE_TAG="${{ needs.build.outputs.package_version_tag }}"
           RELEASE_TITLE="$RELEASE_TAG"
-          RELEASE_NOTES=$(echo $(cat CHANGELOG.md) | grep -oP '(?<=## v5.7.1).*?(?=## v)')
+          START_LINE=$(( $( grep -n '## v5.7.1' CHANGELOG.md | grep -Eo '^[^:]+' ) + 2 ))
+          END_LINE=$(( $( grep -n '## v5.7.0' CHANGELOG.md | grep -Eo '^[^:]+' ) - 2 ))
+          RELEASE_NOTES=$( sed -n "$START_LINE,$END_LINE"p CHANGELOG.md )
 
-          gh release create $RELEASE_TAG --title $RELEASE_TITLE --notes $'## CHANGELOG:'
+          gh release create $RELEASE_TAG --title $RELEASE_TITLE --notes $'## CHANGELOG:\n\n' $RELEASE_NOTES
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
