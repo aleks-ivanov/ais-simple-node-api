@@ -160,7 +160,7 @@ jobs:
       - name: Create and publish release
         run: |
           RELEASE_TAG="${{ needs.build.outputs.package_version_tag }}"
-          PREVIOUS_TAG=$(git tag | sort --version-sort | tail -n1)
+          PREVIOUS_TAG=$(git tag | sort --version-sort | tail -n2 | sed -n 1p)
           RELEASE_TITLE="$RELEASE_TAG"
           START_LINE=$(( $( grep -n "## $RELEASE_TAG" CHANGELOG.md | grep -Eo '^[^:]+' ) + 2 ))
           END_LINE=$(( $( grep -n "## $PREVIOUS_TAG" CHANGELOG.md | grep -Eo '^[^:]+' ) - 2 ))
