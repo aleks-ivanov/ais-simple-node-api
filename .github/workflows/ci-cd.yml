@@ -89,6 +89,8 @@ jobs:
           echo "::set-output name=latest_github_tag::$(echo $LATEST_GITHUB_TAG)"
           echo "::set-output name=should_deploy::$(echo $SHOULD_DEPLOY)"
 
+      # Build and test validation
+
       - name: Create logs directory
         run: |
           mkdir -p logs
@@ -104,6 +106,8 @@ jobs:
       - name: Run tests
         run: |
           npm test --loglevel verbose 2>&1 | tee logs/test.log
+
+      # Artifact publish to pipeline
 
       - name: Upload logs as artifact
         uses: actions/upload-artifact@v2
@@ -121,14 +125,20 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      # Tooling setup
+
       - name: Use Node.js 16.x
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
 
+      # Package deploy
+
       - name: Deploy to npm
         run: |
           echo $'registry=https://registry.npmjs.org/\n' //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+
+          npm ci
 
           npm publish --access public
 
@@ -136,19 +146,26 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      # GitHub deploy
+
       - name: Push GitHub tag
         run: |
-          PACKAGE_VERSION=$(cat package.json \
-            | grep version \
-            | head -1 \
-            | awk -F: '{ print $2 }' \
-            | sed 's/[",]//g')
-          GITHUB_TAG=`echo v$PACKAGE_VERSION | sed -e 's/[[:space:]]//'`
+          GITHUB_TAG="${{ needs.build.outputs.package_version_tag }}"
 
           git config --global user.email "aleksandar.ivanov@singlet.dev"
           git config --global user.name "aleks-ivanov"
           git tag $GITHUB_TAG
           git push origin --tags
+
+      - name: Create and publish release
+        run: |
+          RELEASE_TAG="${{ needs.build.outputs.package_version_tag }}"
+          RELEASE_TITLE="$RELEASE_TAG"
+          # $releaseNotes = ""
+
+          gh release create $RELEASE_TAG --title $RELEASE_TITLE
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: Deploy app to Heroku
       #   uses: akhileshns/heroku-deploy@v3.12.12
