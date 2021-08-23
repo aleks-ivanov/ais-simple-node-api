@@ -157,6 +157,9 @@ jobs:
           git tag $GITHUB_TAG
           git push origin --tags
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
       - name: Create and publish release
         run: |
           RELEASE_TAG="${{ needs.build.outputs.package_version_tag }}"
