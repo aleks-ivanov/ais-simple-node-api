@@ -156,9 +156,7 @@ jobs:
           git config --global user.name "aleks-ivanov"
           git tag $GITHUB_TAG
           git push origin --tags
-
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+          git fetch --all --tags
 
       - name: Create and publish release
         run: |
